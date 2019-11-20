@@ -90,18 +90,12 @@ class Model():
         print('[Model] Training Completed. Model saved as %s'%save_fname)
         timer.stop()
 
-    def predict_point_by_point(self, data, window_size, prediction_len):
-        print('[Model] Predicting Sequences Multiple....')
-        prediction_seqs = []
-        for i in range(int(len(data)/prediction_len)):
-            curr_framme = data[i*prediction_len]
-            predicted = []
-            for j in range(prediction_len):
-                predicted.append(self.model.predict(curr_framme[newaxis, :, :])[0, 0])
-                curr_framme = curr_framme[1:]
-                curr_framme = np.insert(curr_framme, [window_size-2], predicted[-1], axis=0)
-            prediction_seqs.append(predicted)
-        return prediction_seqs
+    def predict_point_by_point(self, data):
+        # Predict each timestep given the last sequence of true data, in effect only predicting 1 step ahead each time
+        print('[Model] Predicting Point-by-Point...')
+        predicted = self.model.predict(data)
+        predicted = np.reshape(predicted, (predicted.size,))
+        return predicted
 
     def predict_sequences_multiple(self, data, window_size, prediction_len):
         # Predict sequence of 50 steps before shifting prediction run forward by 50 steps
