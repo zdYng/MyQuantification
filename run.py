@@ -5,7 +5,8 @@ import math
 import matplotlib.pyplot as plt
 from core.data_processor import DataLoader
 from core.models import Model
-
+import os
+os.environ['CUDA_VISIBLE_DEVICES'] = '-1'
 
 def plot_results(predicted_data, true_data):
     fig = plt.figure(facecolor='white')
@@ -82,7 +83,7 @@ def main():
     # plot_results(predictions, y_test)
 
 def main2():
-    configs = json.load(open('config.json', 'r'))
+    configs = json.load(open('config2.json', 'r'))
 
     data = DataLoader(
         os.path.join('data', configs['data']['filename']),

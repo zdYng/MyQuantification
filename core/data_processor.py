@@ -2,7 +2,8 @@ import math
 import numpy as np
 import pandas as pd
 
-class DataLoader():
+
+class DataLoader(object):
     def __init__(self, filename, split, cols):
         dataframe = pd.read_csv(filename)
         i_split = int(len(dataframe)*split)
@@ -19,7 +20,7 @@ class DataLoader():
 
         data_windows = np.array(data_windows).astype(float)
         data_windows = self.normalise_windows(data_windows, single_window=False) if normalise else data_windows
-
+        print('data_windows: ',data_windows)
         x = data_windows[:,:-1]
         y = data_windows[:, -1, [0]]
         return x,y
